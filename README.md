@@ -1,4 +1,4 @@
-# BESS Dispatch Model GR
+# BESS Dispatch Model 
 
 A reproducible Python/Pyomo workflow for degradation-aware battery dispatch across energy and reserve price streams using the HiGHS solver.
 
