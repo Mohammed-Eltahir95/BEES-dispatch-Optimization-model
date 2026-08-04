@@ -1,0 +1,64 @@
+# General run configuration
+
+run_name: "bess_multimarket_run"
+
+# The bundled workbook contains history through 2026-07-05 23:00.
+# This default horizon therefore forecasts the following day.
+horizon:
+  start: "2026-07-06T00:00:00"
+  hours: 24
+  timestep_minutes: 60
+
+markets:
+  - name: day_ahead
+    enabled: true
+    type: energy
+  - name: fcr
+    enabled: true
+    type: reserve
+  - name: afrr
+    enabled: false
+    type: reserve
+
+# Priority order for where input data comes from.
+# Loader tries each in order and falls back to the next if unavailable.
+input_source:
+  priority: ["excel", "database", "api"]
+  excel_file: "data/excel_inputs/inputs_template.xlsx"
+
+# Automatically extend historical prices from the market_prices Excel sheet
+# to the optimization horizon. Existing prices at horizon timestamps are kept.
+forecasting:
+  enabled: true
+  method: "ridge_regression"   # ridge_regression | seasonal_naive
+  minimum_history_points: 12
+  ridge_alpha: 10.0
+  use_lag_1: true
+  use_daily_lag: true
+  use_weekly_lag: true
+  clip_forecasts: true
+  max_extrapolation_fraction: 0.25
+  output_file: "results/outputs/price_forecast.csv"
+
+database:
+  path: "database/bess_data.db"
+  cache_api_results: true
+
+solver:
+  name: "appsi_highs"      # Pyomo persistent HiGHS interface
+  options:
+    time_limit: 300
+    mip_rel_gap: 0.005
+    output_flag: true
+  fallback:
+    name: "highs"           # plain HiGHS executable interface if appsi unavailable
+
+output:
+  results_dir: "results/outputs"
+  figures_dir: "results/figures"
+  export_excel: true
+  export_excel_path: "results/outputs/results_export.xlsx"
+
+logging:
+  level: "INFO"
+  file: "results/outputs/run.log"

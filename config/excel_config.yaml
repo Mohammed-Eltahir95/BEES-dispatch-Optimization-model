@@ -1,0 +1,28 @@
+# Maps expected sheet/column names in the Excel input workbook.
+# Keeps excel_io/readers.py decoupled from hardcoded sheet layouts.
+
+sheets:
+  battery_params: "battery_params"
+  market_prices: "market_prices"
+  degradation_curve: "degradation_curve"
+  scenario_config: "scenario_config"
+
+battery_params_columns:
+  param: "parameter"
+  value: "value"
+
+market_prices_columns:
+  timestamp: "timestamp"
+  # remaining columns are treated dynamically as market names,
+  # e.g. "day_ahead", "fcr", "afrr"
+
+degradation_curve_columns:
+  depth_of_discharge: "dod_pct"
+  cycles_to_eol: "cycles_to_eol"
+
+output_export:
+  sheets:
+    dispatch: "dispatch_schedule"
+    soc: "soc_profile"
+    revenue: "revenue_breakdown"
+    kpis: "kpis"

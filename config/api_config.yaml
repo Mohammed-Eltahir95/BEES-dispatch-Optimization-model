@@ -1,0 +1,19 @@
+# REST API endpoint configuration
+# Secrets (keys) come from .env, not this file.
+
+base_url_env: "MARKET_API_BASE_URL"
+api_key_env: "MARKET_API_KEY"
+
+timeout_seconds: 15
+max_retries: 3
+backoff_factor: 2.0
+
+endpoints:
+  day_ahead_prices: "/prices/day-ahead"
+  fcr_prices: "/prices/fcr"
+  afrr_prices: "/prices/afrr"
+  submit_bid: "/bids"
+  weather_forecast: "/weather/forecast"
+
+rate_limit:
+  max_requests_per_minute: 60
